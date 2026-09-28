@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Juego Halloween</title>
+<link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Pantalla 0: modo de juego -->
+  <section id="screen-mode" class="screen active">
+    <div class="panel">
+      <h1>🎃 Juego Halloween</h1>
+      <p class="subtitle">¿Cómo querés jugar?</p>
+      <div class="mode-choices">
+        <button type="button" id="mode-solo-btn" class="mode-btn">
+          <span class="mode-emoji">🙋</span>
+          <span>Solo</span>
+          <span class="mode-desc">Guarda tu puntaje y seguís donde lo dejaste</span>
+        </button>
+        <button type="button" id="mode-multi-btn" class="mode-btn">
+          <span class="mode-emoji">👥</span>
+          <span>Multijugador</span>
+          <span class="mode-desc">Hasta 8 manos, cada uno desde su casa</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pantalla 1: usuario (modo solo) -->
+  <section id="screen-login" class="screen">
+    <div class="panel">
+      <h1>🎃 Juego Halloween</h1>
+      <p class="subtitle">Poné tu nombre de usuario para guardar tu puntaje</p>
+      <form id="login-form">
+        <input id="username-input" type="text" placeholder="Tu nombre" maxlength="40" autocomplete="off" required />
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-status" class="status"></p>
+      <button type="button" class="link-btn" data-back="screen-mode">« Volver</button>
+    </div>
+  </section>
+
+  <!-- Pantalla 1b: sala (modo multijugador) -->
+  <section id="screen-room" class="screen">
+    <div class="panel">
+      <h1>👥 Multijugador</h1>
+      <p class="subtitle">Creá una sala nueva o unite con un código</p>
+      <input id="room-name-input" type="text" placeholder="Tu nombre" maxlength="40" autocomplete="off" />
+
+      <div class="setup-group">
+        <button type="button" id="create-room-btn" class="primary-btn">Crear sala nueva</button>
+      </div>
+
+      <div class="setup-group room-join-row">
+        <input id="room-code-input" type="text" placeholder="CÓDIGO" maxlength="6" autocomplete="off" style="text-transform:uppercase;" />
+        <button type="button" id="join-room-btn">Unirse</button>
+      </div>
+
+      <p id="room-status" class="status"></p>
+      <div id="room-code-display" class="hidden">
+        <p class="subtitle">Compartí este código con los demás:</p>
+        <p id="room-code-value"></p>
+      </div>
+      <button type="button" class="link-btn" data-back="screen-mode">« Volver</button>
+    </div>
+  </section>
+
+  <!-- Pantalla 2: configuracion (orientacion + velocidad + volumen) -->
+  <section id="screen-setup" class="screen">
+    <div class="panel">
+      <h2 id="setup-greeting">Hola</h2>
+      <p class="subtitle" id="setup-score-line"></p>
+
+      <div class="setup-group">
+        <span class="setup-label">Orientación (para proyectar)</span>
+        <div class="btn-row">
+          <button type="button" class="option-btn" data-orientation="horizontal">Horizontal</button>
+          <button type="button" class="option-btn" data-orientation="vertical">Vertical</button>
+        </div>
+      </div>
+
+      <div class="setup-group" id="speed-group">
+        <span class="setup-label">Velocidad</span>
+        <div class="btn-row">
+          <button type="button" class="option-btn" data-speed="3.0">Lenta</button>
+          <button type="button" class="option-btn" data-speed="4.2">Normal</button>
+          <button type="button" class="option-btn" data-speed="6.0">Rápida</button>
+        </div>
+      </div>
+      <p class="hint" id="speed-guest-hint">La velocidad la elige quien creó la sala.</p>
+
+      <div class="setup-group">
+        <span class="setup-label">Volumen: <span id="volume-value">70</span>%</span>
+        <input id="volume-slider" type="range" min="0" max="100" value="70" />
+      </div>
+
+      <button id="start-game-btn" type="button" class="primary-btn">Empezar a jugar</button>
+      <p class="hint">Se te va a pedir permiso para usar la cámara.</p>
+    </div>
+  </section>
+
+  <!-- Pantalla 3: juego -->
+  <section id="screen-game" class="screen">
+    <div id="game-wrap">
+      <video id="input-video" playsinline style="display:none;"></video>
+      <canvas id="game-canvas"></canvas>
+      <canvas id="weather-canvas"></canvas>
+      <div id="hud">
+        <div id="hud-left">
+          <div id="hud-username"></div>
+          <div id="hud-score">Puntaje: 0</div>
+          <div id="hud-misses">Sustos: 0</div>
+        </div>
+        <div id="hud-right">
+          <div id="hud-weather"></div>
+          <div id="hud-room"></div>
+          <div id="hud-players"></div>
+        </div>
+      </div>
+      <div id="camera-warning" class="hidden">
+        No se pudo acceder a la cámara. Revisá los permisos del navegador.
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466862/camera_utils.js" crossorigin="anonymous"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
