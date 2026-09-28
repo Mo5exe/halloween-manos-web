@@ -1,5 +1,5 @@
 import { drawBoneSkeleton, catchPointsFromLandmarks, catchPointsNormalized } from "./render.js";
-import { loadSprites } from "./sprites.js";
+import { loadSprites, loadImage } from "./sprites.js";
 import { Simulation } from "./simulation.js";
 
 const SPRITE_SIZE = { pumpkin: 0.13, vampire: 0.16, ghost: 0.16, witch_hat: 0.12 };
@@ -48,6 +48,7 @@ export class GameView {
 
   async init() {
     this.sprites = await loadSprites();
+    this.backgroundImg = await loadImage("/assets/background.jpg");
   }
 
   setOrientation(orientation) {
@@ -248,15 +249,11 @@ export class GameView {
     ctx.save();
     ctx.clearRect(0, 0, w, h);
 
-    // fondo: la camara, espejada
-    if (this.video && this.video.videoWidth) {
-      ctx.save();
-      ctx.translate(w, 0);
-      ctx.scale(-1, 1);
-      this._drawCover(this.video, this.video.videoWidth, this.video.videoHeight, w, h);
-      ctx.restore();
-      ctx.fillStyle = "rgba(5, 0, 8, 0.28)";
-      ctx.fillRect(0, 0, w, h);
+    // fondo: la imagen decorativa de Halloween (igual que en la version de
+    // escritorio) -- la camara real NUNCA se dibuja, solo se usa para
+    // rastrear la mano
+    if (this.backgroundImg) {
+      this._drawCover(this.backgroundImg, this.backgroundImg.naturalWidth, this.backgroundImg.naturalHeight, w, h);
     } else {
       ctx.fillStyle = "#0e0710";
       ctx.fillRect(0, 0, w, h);
