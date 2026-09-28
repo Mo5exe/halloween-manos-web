@@ -232,9 +232,9 @@ input[type="range"] { width: 100%; }
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #000;
 }
-#weather-canvas { pointer-events: none; }
+#game-canvas { background: #000; }
+#weather-canvas { pointer-events: none; background: transparent; }
 
 #hud {
   position: absolute;
